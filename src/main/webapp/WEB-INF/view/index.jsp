@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Index.jsp</h1>
+    <h1>Bienvenido</h1>
 
 </body>
 </html>
