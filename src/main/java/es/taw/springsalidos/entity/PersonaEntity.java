@@ -1,5 +1,7 @@
 package es.taw.springsalidos.entity;
 
+import es.taw.springsalidos.dto.PersonaDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -172,5 +174,18 @@ public class PersonaEntity {
 
     public void setTransaccionsById(List<TransaccionEntity> transaccionsById) {
         this.transaccionsById = transaccionsById;
+    }
+
+    public PersonaDTO toDTO() {
+        PersonaDTO dto = new PersonaDTO();
+
+        dto.setIdPersona(id);
+        dto.setEmail(email);
+        dto.setPassword(password);
+        dto.setNombre(nombre);
+        dto.setApellidos(apellidos);
+        dto.setRol(rol);
+
+        return dto;
     }
 }
