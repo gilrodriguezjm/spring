@@ -29,7 +29,7 @@
         Apellidos: <%= persona.getApellidos() %></br>
         Email: <%= persona.getEmail() %>
     </p>
-    <a href="#">Generar informe</a>
+    <a href="/analista/generador">Generar informe</a>
     <h2>Informes generados</h2>
     <%
         if (analisis == null || analisis.isEmpty()) {
