@@ -5,6 +5,7 @@ import es.taw.springsalidos.entity.PersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,17 +36,23 @@ public class LoginController {
             model.addAttribute("error", "Email o contraseña incorrectos");
             return "index";
         } else if (persona.getRol().equals("Administrador")) {
-            //Cambiar a tu controller
-            return "redirect:/administrador";
+            //Enviar a tu controller
+            return "redirect:/";
         } else if (persona.getRol().equals("Analista")) {
             return "redirect:/analista/";
         } else if (persona.getRol().equals("Marketing")) {
-            //Cambiar a tu controller
-            return "redirect:/marketing";
+            //Enviar a tu controller
+            return "redirect:/";
         } else {
-            //Cambiar a tu controller
-            return "redirect:/inicio";
+            //Enviar a tu controller
+            return "redirect:/";
         }
+    }
+
+    @GetMapping("/cerrarSesion")
+    public String doCerrarSesion (HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
