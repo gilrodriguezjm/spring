@@ -62,8 +62,8 @@
                             <td><%= fechaInicio %></td>
                             <td><%= fechaFinal %></td>
                             <td><a href="#">Ver</a></td>
-                            <td><a href="#">Editar</a></td>
-                            <td><a href="#">Borrar</a></td>
+                            <td><a href="/analista/<%= analisis.get(i).getId() %>/editarInforme">Editar</a></td>
+                            <td><a href="/analista/<%= analisis.get(i).getId() %>/borrarInforme">Borrar</a></td>
                         </tr>
                 <%
                     }

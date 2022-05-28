@@ -1,5 +1,7 @@
 package es.taw.springsalidos.entity;
 
+import es.taw.springsalidos.dto.AnalisisDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -108,5 +110,19 @@ public class AnalisisEntity {
 
     public void setPersonaByPersonaId(PersonaEntity personaByPersonaId) {
         this.personaByPersonaId = personaByPersonaId;
+    }
+
+    public AnalisisDTO toDTO() {
+        AnalisisDTO dto = new AnalisisDTO();
+
+        dto.setId(this.id);
+        dto.setDescripcion(this.descripcion);
+        dto.setTabla(this.tabla);
+        dto.setColumna(this.columna);
+        dto.setOrden(this.orden);
+        dto.setFechaInicio(this.fechaInicio);
+        dto.setFechaFinal(this.fechaFinal);
+
+        return dto;
     }
 }

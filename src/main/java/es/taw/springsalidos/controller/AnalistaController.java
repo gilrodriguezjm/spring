@@ -1,15 +1,13 @@
 package es.taw.springsalidos.controller;
 
 import es.taw.springsalidos.dao.AnalistaRepository;
+import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
@@ -88,6 +86,29 @@ public class AnalistaController {
         analisisEntity.setPersonaByPersonaId(persona);
 
         this.analistaRepository.save(analisisEntity);
+
+        return "redirect:/analista/";
+    }
+
+    @GetMapping("/{id}/borrarInforme")
+    public String doBorrar (@PathVariable("id") Integer id) {
+        this.analistaRepository.deleteById(id);
+        return "redirect:/analista/";
+    }
+
+    @GetMapping("/{id}/editarInforme")
+    public String doEditar (@PathVariable("id") Integer id,
+                            Model model) {
+
+        AnalisisEntity analisis = this.analistaRepository.findById(id).orElse(null);
+        model.addAttribute("analisis", analisis.toDTO());
+
+        return "editarInforme";
+    }
+
+    @PostMapping("/actualizarInforme")
+    public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisis) {
+
 
         return "redirect:/analista/";
     }
