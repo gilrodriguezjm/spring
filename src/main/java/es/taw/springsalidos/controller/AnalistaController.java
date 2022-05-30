@@ -104,7 +104,7 @@ public class AnalistaController {
 
     @GetMapping("/{id}/borrarInforme")
     public String doBorrar (@PathVariable("id") Integer id) {
-        this.analistaRepository.deleteById(id);
+        this.analisisService.borrarAnalisis(id);
         return "redirect:/analista/";
     }
 
@@ -112,26 +112,24 @@ public class AnalistaController {
     public String doEditar (@PathVariable("id") Integer id,
                             Model model) {
 
-        AnalisisEntity analisis = this.analistaRepository.findById(id).orElse(null);
+        AnalisisDTO analisisDTO = this.analisisService.findAnalisisById(id);
 
         String informe;
-        if (analisis.getTabla() == 0)
+        if (analisisDTO.getTabla() == 0)
             informe = "Personas";
         else
             informe = "Producto";
 
         model.addAttribute("informe", informe);
-        model.addAttribute("analisis", analisis.toDTO());
+        model.addAttribute("analisis", analisisDTO);
 
         return "editarInforme";
     }
 
     @PostMapping("/actualizarInforme")
-    public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisis) {
+    public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisisDTO) {
 
-        AnalisisEntity analisisEntity = new AnalisisEntity(analisis);
-
-        this.analistaRepository.save(analisisEntity);
+        this.analisisService.actualizarInforme(analisisDTO);
 
         return "redirect:/analista/";
     }

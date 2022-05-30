@@ -82,8 +82,7 @@ public class AnalisisService {
         return descripcion;
     }
 
-    public void crearInforme(String descripcion, int tabla, int columna, int orden, Date fechaInicio, Date fechaFinal, PersonaDTO persona){
-        AnalisisEntity analisisEntity = new AnalisisEntity();
+    public void rellenarInforme(AnalisisEntity analisisEntity, String descripcion, int tabla, int columna, int orden, Date fechaInicio, Date fechaFinal, PersonaDTO persona){
         PersonaEntity personaEntity = new PersonaEntity(persona);
 
         analisisEntity.setDescripcion(descripcion);
@@ -93,6 +92,27 @@ public class AnalisisService {
         analisisEntity.setFechaInicio(fechaInicio);
         analisisEntity.setFechaFinal(fechaFinal);
         analisisEntity.setPersonaByPersonaId(personaEntity);
+    }
+
+    public void crearInforme(String descripcion, int tabla, int columna, int orden, Date fechaInicio, Date fechaFinal, PersonaDTO persona){
+        AnalisisEntity analisisEntity = new AnalisisEntity();
+        this.rellenarInforme(analisisEntity, descripcion, tabla, columna, orden, fechaInicio, fechaFinal, persona);
+
+        this.analistaRepository.save(analisisEntity);
+    }
+
+    public void borrarAnalisis(int id){
+        this.analistaRepository.deleteById(id);
+    }
+
+    public AnalisisDTO findAnalisisById(int id){
+        AnalisisEntity analisis = this.analistaRepository.findById(id).orElse(null);
+
+        return analisis.toDTO();
+    }
+
+    public void actualizarInforme(AnalisisDTO analisis){
+        AnalisisEntity analisisEntity = new AnalisisEntity(analisis);
 
         this.analistaRepository.save(analisisEntity);
     }
