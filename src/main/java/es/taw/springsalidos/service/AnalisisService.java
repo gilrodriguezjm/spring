@@ -9,6 +9,7 @@ import es.taw.springsalidos.entity.PersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +54,46 @@ public class AnalisisService {
         List<AnalisisEntity> listaAnalisis = this.analistaRepository.findAllByPersonaByPersonaId(personaEntity);
 
         return this.listaAnalisisEntityToDTO(listaAnalisis);
+    }
+
+    public String generarDescripcion(int tabla, int columna, int orden) {
+        String strTabla, strColumna, strOrden, descripcion;
+
+        if (tabla == 0)
+            strTabla = "Personas";
+        else
+            strTabla = "Producto";
+
+        strColumna = switch (columna) {
+            case 1 -> "Productos comprados";
+            case 2 -> "Precio de salida";
+            case 3 -> "Precio de compra";
+            case 4 -> "Estado";
+            default -> "Productos vendidos";
+        };
+
+        if (orden == 0)
+            strOrden = "Ascendente";
+        else
+            strOrden = "Descendente";
+
+        descripcion = "Informe sobre " + strTabla + " por " + strColumna + " en orden " + strOrden;
+
+        return descripcion;
+    }
+
+    public void crearInforme(String descripcion, int tabla, int columna, int orden, Date fechaInicio, Date fechaFinal, PersonaDTO persona){
+        AnalisisEntity analisisEntity = new AnalisisEntity();
+        PersonaEntity personaEntity = new PersonaEntity(persona);
+
+        analisisEntity.setDescripcion(descripcion);
+        analisisEntity.setTabla(tabla);
+        analisisEntity.setColumna(columna);
+        analisisEntity.setOrden(orden);
+        analisisEntity.setFechaInicio(fechaInicio);
+        analisisEntity.setFechaFinal(fechaFinal);
+        analisisEntity.setPersonaByPersonaId(personaEntity);
+
+        this.analistaRepository.save(analisisEntity);
     }
 }

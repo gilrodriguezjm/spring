@@ -94,19 +94,10 @@ public class AnalistaController {
         java.sql.Date fechaInicio = java.sql.Date.valueOf(fIni);
         java.sql.Date fechaFinal = java.sql.Date.valueOf(fFin);
 
-        PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
+        PersonaDTO personaDTO = (PersonaDTO)session.getAttribute("persona");
+        String descripcion = this.analisisService.generarDescripcion(tabla, columna, orden);
 
-        AnalisisEntity analisisEntity = new AnalisisEntity();
-
-        analisisEntity.setDescripcion("AUTO");
-        analisisEntity.setTabla(tabla);
-        analisisEntity.setColumna(columna);
-        analisisEntity.setOrden(orden);
-        analisisEntity.setFechaInicio(fechaInicio);
-        analisisEntity.setFechaFinal(fechaFinal);
-        analisisEntity.setPersonaByPersonaId(persona);
-
-        this.analistaRepository.save(analisisEntity);
+        this.analisisService.crearInforme(descripcion, tabla, columna, orden, fechaInicio, fechaFinal, personaDTO);
 
         return "redirect:/analista/";
     }

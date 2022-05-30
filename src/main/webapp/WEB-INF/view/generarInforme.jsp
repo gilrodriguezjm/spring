@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.taw.springsalidos.entity.PersonaEntity" %>
+<%@ page import="es.taw.springsalidos.dto.PersonaDTO" %>
 <%--
   Created by IntelliJ IDEA.
   User: gil
@@ -13,7 +14,7 @@
     <title>Generar informe</title>
 </head>
 <%
-    PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
+    PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
 
     String tabla = (String)request.getAttribute("tabla");
     String informe = (String)request.getAttribute("informe");
