@@ -1,6 +1,7 @@
 package es.taw.springsalidos.controller;
 
 import es.taw.springsalidos.dao.AnalistaRepository;
+import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AnalistaController {
 
     private AnalistaRepository analistaRepository;
+    private PersonaRepository personaRepository;
 
     public AnalistaRepository getAnalistaRepository() {
         return analistaRepository;
@@ -29,6 +31,13 @@ public class AnalistaController {
     @Autowired
     public void setAnalistaRepository(AnalistaRepository analistaRepository) {
         this.analistaRepository = analistaRepository;
+    }
+
+    public PersonaRepository getPersonaRepository() { return personaRepository; }
+
+    @Autowired
+    public void setPersonaRepository(PersonaRepository personaRepository) {
+        this.personaRepository = personaRepository;
     }
 
     @GetMapping("/")
@@ -117,7 +126,9 @@ public class AnalistaController {
     @PostMapping("/actualizarInforme")
     public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisis) {
 
+        AnalisisEntity analisisEntity = new AnalisisEntity(analisis);
 
+        this.analistaRepository.save(analisisEntity);
 
         return "redirect:/analista/";
     }
