@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="es.taw.springsalidos.dto.PersonaDTO" %>
+<%@ page import="es.taw.springsalidos.dto.AnalisisDTO" %>
 <%--
   Created by IntelliJ IDEA.
   User: gil
@@ -16,7 +17,7 @@
 </head>
 <%
     PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
-    List<AnalisisEntity> analisis = (List)request.getAttribute("analisis");
+    List<AnalisisDTO> analisis = (List)request.getAttribute("analisis");
 
     SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
 %>

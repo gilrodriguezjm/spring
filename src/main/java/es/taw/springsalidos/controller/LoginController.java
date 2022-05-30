@@ -1,6 +1,5 @@
 package es.taw.springsalidos.controller;
 
-import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
-
 
     protected PersonaService personaService;
 

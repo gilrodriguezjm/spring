@@ -6,6 +6,7 @@ import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.service.AnalisisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class AnalistaController {
 
     private AnalistaRepository analistaRepository;
     private PersonaRepository personaRepository;
+    private AnalisisService analisisService;
 
     public AnalistaRepository getAnalistaRepository() {
         return analistaRepository;
@@ -41,13 +43,20 @@ public class AnalistaController {
         this.personaRepository = personaRepository;
     }
 
+    public AnalisisService getAnalisisService() {
+        return analisisService;
+    }
+
+    @Autowired
+    public void setAnalisisService(AnalisisService analisisService) {
+        this.analisisService = analisisService;
+    }
+
     @GetMapping("/")
     public String doListarInformes (Model model, HttpSession session) {
         PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
 
-        PersonaEntity per = new PersonaEntity(persona);
-
-        List <AnalisisEntity> listaAnalisis = this.analistaRepository.findAllByPersonaByPersonaId(per);
+        List <AnalisisDTO> listaAnalisis = this.analisisService.listarInformes(persona);
 
         model.addAttribute("analisis", listaAnalisis);
 
