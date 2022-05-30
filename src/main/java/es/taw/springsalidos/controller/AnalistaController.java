@@ -101,6 +101,14 @@ public class AnalistaController {
                             Model model) {
 
         AnalisisEntity analisis = this.analistaRepository.findById(id).orElse(null);
+
+        String informe;
+        if (analisis.getTabla() == 0)
+            informe = "Personas";
+        else
+            informe = "Producto";
+
+        model.addAttribute("informe", informe);
         model.addAttribute("analisis", analisis.toDTO());
 
         return "editarInforme";
@@ -108,6 +116,7 @@ public class AnalistaController {
 
     @PostMapping("/actualizarInforme")
     public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisis) {
+
 
 
         return "redirect:/analista/";
