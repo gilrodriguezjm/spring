@@ -45,7 +45,7 @@ public class LoginController {
             return "redirect:/";
         } else {
             //Enviar a tu controller
-            return "redirect:/";
+            return "redirect:/usuario/";
         }
     }
 

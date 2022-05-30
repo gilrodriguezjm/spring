@@ -1,5 +1,7 @@
 package es.taw.springsalidos.entity;
 
+import org.springframework.data.repository.query.Param;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -109,4 +111,5 @@ public class ProductoEntity {
     public void setTransaccionsById(List<TransaccionEntity> transaccionsById) {
         this.transaccionsById = transaccionsById;
     }
+
 }
