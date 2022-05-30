@@ -1,7 +1,7 @@
 package es.taw.springsalidos.controller;
 
-import es.taw.springsalidos.dao.PersonaRepository;
-import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.dto.PersonaDTO;
+import es.taw.springsalidos.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,23 +14,24 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    protected PersonaRepository personaRepository;
+    protected PersonaService personaService;
 
-    public PersonaRepository getPersonaRepository() {
-        return personaRepository;
+    public PersonaService getPersonaService() {
+        return personaService;
     }
-
     @Autowired
-    public void setPersonaRepository(PersonaRepository personaRepository) {
-        this.personaRepository = personaRepository;
+    public void setPersonaService(PersonaService personaService) {
+        this.personaService = personaService;
     }
+
 
     @PostMapping("/iniciarSesion")
     public String doIniciarSesion(Model model, HttpSession session,
                                   @RequestParam("email") String email,
                                   @RequestParam("pass") String pass){
 
-        PersonaEntity persona = this.personaRepository.findPersonaEntityByEmailAndPassword(email, pass);
+        PersonaDTO persona = this.personaService.comprobarCredenciales(email, pass);
+
         session.setAttribute("persona", persona);
         if (persona == null) {
             model.addAttribute("error", "Email o contraseña incorrectos");

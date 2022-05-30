@@ -19,10 +19,11 @@
     <form:form method="POST" action="/analista/actualizarInforme" modelAttribute="analisis">
         <form:hidden path="id" />
         <form:hidden path="tabla" />
+        <form:hidden path="persona" />
 
         <p>Sobre:</p>
         <%
-            if (analisis.getColumna == 0) {
+            if (informe.equals("Persona")) {
         %>
             <form:radiobutton path="columna" value="0"/>
             <label>Productos vendidos</label>
@@ -32,14 +33,34 @@
             } else {
         %>
             <form:radiobutton path="columna" value="2"/>
-            <label>Productos vendidos</label>
+            <label>Precio salida</label>
             <form:radiobutton path="columna" value="3"/>
-
+            <label>Precio compra</label>
             <form:radiobutton path="columna" value="4"/>
+            <label>Estado producto</label>
         <%
             }
         %>
-        <form:button>Editar</form:button>
+        <p>Orden:</p>
+        <form:radiobutton path="orden" value="0" required="required"/>
+        <label>Ascendente</label>
+        <form:radiobutton path="orden" value="0"/>
+        <label>Descendente</label>
+
+        <br><br>
+        <label>Desde:</label>
+        <form:input path="fechaInicio" required="required"/>
+        <br><br>
+        <label>Hasta:</label>
+        <form:input path="fechaFinal" required="required"/>
+
+        <br><br>
+        <label>Descripción:</label>
+        <br>
+        <form:textarea path="descripcion" rows="5" col="12" required="required"/>
+
+        <br><br>
+        <form:button>Editar informe</form:button>
     </form:form>
 </body>
 </html>

@@ -1,9 +1,12 @@
 package es.taw.springsalidos.controller;
 
 import es.taw.springsalidos.dao.AnalistaRepository;
+import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dto.AnalisisDTO;
+import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.service.AnalisisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,8 @@ import java.util.List;
 public class AnalistaController {
 
     private AnalistaRepository analistaRepository;
+    private PersonaRepository personaRepository;
+    private AnalisisService analisisService;
 
     public AnalistaRepository getAnalistaRepository() {
         return analistaRepository;
@@ -31,11 +36,27 @@ public class AnalistaController {
         this.analistaRepository = analistaRepository;
     }
 
+    public PersonaRepository getPersonaRepository() { return personaRepository; }
+
+    @Autowired
+    public void setPersonaRepository(PersonaRepository personaRepository) {
+        this.personaRepository = personaRepository;
+    }
+
+    public AnalisisService getAnalisisService() {
+        return analisisService;
+    }
+
+    @Autowired
+    public void setAnalisisService(AnalisisService analisisService) {
+        this.analisisService = analisisService;
+    }
+
     @GetMapping("/")
     public String doListarInformes (Model model, HttpSession session) {
-        PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
+        PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
 
-        List <AnalisisEntity> listaAnalisis = this.analistaRepository.findAllByPersonaByPersonaId(persona);
+        List <AnalisisDTO> listaAnalisis = this.analisisService.listarInformes(persona);
 
         model.addAttribute("analisis", listaAnalisis);
 
@@ -73,26 +94,17 @@ public class AnalistaController {
         java.sql.Date fechaInicio = java.sql.Date.valueOf(fIni);
         java.sql.Date fechaFinal = java.sql.Date.valueOf(fFin);
 
-        PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
+        PersonaDTO personaDTO = (PersonaDTO)session.getAttribute("persona");
+        String descripcion = this.analisisService.generarDescripcion(tabla, columna, orden);
 
-        AnalisisEntity analisisEntity = new AnalisisEntity();
-
-        analisisEntity.setDescripcion("AUTO");
-        analisisEntity.setTabla(tabla);
-        analisisEntity.setColumna(columna);
-        analisisEntity.setOrden(orden);
-        analisisEntity.setFechaInicio(fechaInicio);
-        analisisEntity.setFechaFinal(fechaFinal);
-        analisisEntity.setPersonaByPersonaId(persona);
-
-        this.analistaRepository.save(analisisEntity);
+        this.analisisService.crearInforme(descripcion, tabla, columna, orden, fechaInicio, fechaFinal, personaDTO);
 
         return "redirect:/analista/";
     }
 
     @GetMapping("/{id}/borrarInforme")
     public String doBorrar (@PathVariable("id") Integer id) {
-        this.analistaRepository.deleteById(id);
+        this.analisisService.borrarAnalisis(id);
         return "redirect:/analista/";
     }
 
@@ -100,25 +112,31 @@ public class AnalistaController {
     public String doEditar (@PathVariable("id") Integer id,
                             Model model) {
 
-        AnalisisEntity analisis = this.analistaRepository.findById(id).orElse(null);
+        AnalisisDTO analisisDTO = this.analisisService.findAnalisisById(id);
 
         String informe;
-        if (analisis.getTabla() == 0)
+        if (analisisDTO.getTabla() == 0)
             informe = "Personas";
         else
             informe = "Producto";
 
         model.addAttribute("informe", informe);
-        model.addAttribute("analisis", analisis.toDTO());
+        model.addAttribute("analisis", analisisDTO);
 
         return "editarInforme";
     }
 
     @PostMapping("/actualizarInforme")
-    public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisis) {
+    public String doActualizarInforme(@ModelAttribute("analisis") AnalisisDTO analisisDTO) {
 
-
+        this.analisisService.actualizarInforme(analisisDTO);
 
         return "redirect:/analista/";
+    }
+
+    @GetMapping("/cargarInforme")
+    public String doCargarInforme(@PathVariable("id") Integer id){
+
+        return "verInforme";
     }
 }

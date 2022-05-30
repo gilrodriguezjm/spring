@@ -1,7 +1,7 @@
-<%@ page import="es.taw.springsalidos.entity.PersonaEntity" %>
-<%@ page import="es.taw.springsalidos.entity.AnalisisEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="es.taw.springsalidos.dto.PersonaDTO" %>
+<%@ page import="es.taw.springsalidos.dto.AnalisisDTO" %>
 <%--
   Created by IntelliJ IDEA.
   User: gil
@@ -15,8 +15,8 @@
     <title>Analista</title>
 </head>
 <%
-    PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
-    List<AnalisisEntity> analisis = (List)request.getAttribute("analisis");
+    PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
+    List<AnalisisDTO> analisis = (List)request.getAttribute("analisis");
 
     SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
 %>
@@ -61,7 +61,7 @@
                             <td><%= analisis.get(i).getDescripcion() %></td>
                             <td><%= fechaInicio %></td>
                             <td><%= fechaFinal %></td>
-                            <td><a href="#">Ver</a></td>
+                            <td><a href="/analista/<%= analisis.get(i).getId() %>/cargarInforme">Ver</a></td>
                             <td><a href="/analista/<%= analisis.get(i).getId() %>/editarInforme">Editar</a></td>
                             <td><a href="/analista/<%= analisis.get(i).getId() %>/borrarInforme">Borrar</a></td>
                         </tr>

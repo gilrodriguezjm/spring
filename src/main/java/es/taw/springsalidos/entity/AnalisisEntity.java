@@ -122,7 +122,21 @@ public class AnalisisEntity {
         dto.setOrden(this.orden);
         dto.setFechaInicio(this.fechaInicio);
         dto.setFechaFinal(this.fechaFinal);
+        dto.setPersona(this.personaByPersonaId);
 
         return dto;
+    }
+
+    public AnalisisEntity() {}
+
+    public AnalisisEntity(AnalisisDTO dto) {
+        this.id = dto.getId();
+        this.descripcion = dto.getDescripcion();
+        this.tabla = dto.getTabla();
+        this.columna = dto.getColumna();
+        this.orden = dto.getOrden();
+        this.fechaInicio = dto.getFechaInicio();
+        this.fechaFinal = dto.getFechaFinal();
+        this.personaByPersonaId = dto.getPersona();
     }
 }

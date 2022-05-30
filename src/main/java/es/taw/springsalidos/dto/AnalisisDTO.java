@@ -18,6 +18,8 @@ public class AnalisisDTO {
     private Date fechaInicio;
     private Date fechaFinal;
 
+    private PersonaEntity persona;
+
     public AnalisisDTO() {
     }
 
@@ -76,4 +78,13 @@ public class AnalisisDTO {
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
+
+    public PersonaEntity getPersona() {
+        return persona;
+    }
+
+    public void setPersona(PersonaEntity persona) {
+        this.persona = persona;
+    }
+
 }
