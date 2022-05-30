@@ -188,4 +188,15 @@ public class PersonaEntity {
 
         return dto;
     }
+
+    public PersonaEntity() {}
+
+    public PersonaEntity(PersonaDTO dto){
+        this.id = dto.getIdPersona();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.nombre = dto.getNombre();
+        this.apellidos = dto.getApellidos();
+        this.rol = dto.getRol();
+    }
 }

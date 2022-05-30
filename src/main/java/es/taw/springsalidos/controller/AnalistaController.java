@@ -3,6 +3,7 @@ package es.taw.springsalidos.controller;
 import es.taw.springsalidos.dao.AnalistaRepository;
 import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dto.AnalisisDTO;
+import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,11 @@ public class AnalistaController {
 
     @GetMapping("/")
     public String doListarInformes (Model model, HttpSession session) {
-        PersonaEntity persona = (PersonaEntity)session.getAttribute("persona");
+        PersonaDTO persona = (PersonaDTO)session.getAttribute("persona");
 
-        List <AnalisisEntity> listaAnalisis = this.analistaRepository.findAllByPersonaByPersonaId(persona);
+        PersonaEntity per = new PersonaEntity(persona);
+
+        List <AnalisisEntity> listaAnalisis = this.analistaRepository.findAllByPersonaByPersonaId(per);
 
         model.addAttribute("analisis", listaAnalisis);
 
