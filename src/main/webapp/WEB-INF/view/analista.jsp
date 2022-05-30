@@ -1,4 +1,3 @@
-<%@ page import="es.taw.springsalidos.entity.PersonaEntity" %>
 <%@ page import="es.taw.springsalidos.entity.AnalisisEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
