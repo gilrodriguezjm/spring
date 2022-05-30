@@ -1,6 +1,9 @@
 <%@ page import="es.taw.springsalidos.entity.PersonaEntity" %>
 <%@ page import="es.taw.springsalidos.entity.ProductoEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.springsalidos.dto.ProductoDTO" %>
+<%@ page import="es.taw.springsalidos.dto.PersonaDTO" %>
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: gil
   Date: 28/5/22
@@ -17,8 +20,8 @@
 
     String strError = (String)request.getAttribute("error");
     if (strError == null) strError = "";
-    PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
-    List<ProductoEntity> ventas = (List<ProductoEntity>) request.getAttribute("ventas");
+    PersonaDTO persona = (PersonaDTO) request.getAttribute("persona");
+
 
 %>
 
@@ -30,7 +33,7 @@
 <p>Nombre : <%= persona.getNombre() %> </p>
 <p>Apellidos : <%= persona.getApellidos() %> </p>
 <p>Email : <%= persona.getEmail() %> </p>
-<p>Fecha de nacimiento : <%= persona.getFechaNacimiento() %> </p>
+<p>Fecha de nacimiento : <%= persona.getFecha_nacimiento() %> </p>
 <p>Monedero acutal : <%= persona.getMonedero() %> € </p>
 <p>Domicilio : <%= persona.getDomicilio() %> </p>
 <p>Ciudad : <%= persona.getCiudad() %> </p>
@@ -38,24 +41,47 @@
 
 <h2> Mostrando las ventas del cliente : </h2>
 
-<table>
+<%
+    List<ProductoDTO> ventas = (List<ProductoDTO>) request.getAttribute("ventas");
+    if(ventas == null || ventas.isEmpty()){
+
+%>
+<h3>No se han encontrado ventas</h3>
+<%
+    }else{
+%>
+
+<table border="1">
     <thead>
         <tr>
-            <td>Nombre : </td>
-            <td>Fecha de puesta a venta : </td>
-            <td>Precio salida : </td>
-            <td>Precio compra : </td>
+            <td>Nombre</td>
+            <td>Fecha de puesta a venta</td>
+            <td>Precio salida</td>
+            <td>Precio compra</td>
         </tr>
     </thead>
     <tbody>
         <%
-            for(ProductoEntity p : ventas){
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            for(ProductoDTO p : ventas){
         %>
         <tr>
             <td><%= p.getNombre() %></td>
-            <td><%= p.getFechaVenta() %></td>
-            <td><%= p.getPrecioSalida() %></td>
-            <td><%= p.getPrecioCompra() %></td>
+            <td><%= sdf.format(p.getFecha_puesta_venta()) %></td>
+            <td><%= p.getPrecio_salida() %> €</td>
+            <%
+                if(p.getPrecio_compra() == null){
+            %>
+            <td>0 €</td>
+            <%
+                }else{
+            %>
+            <td><%= p.getPrecio_compra() %> €</td>
+            <%
+                }
+            %>
 
         <%
             }
@@ -66,6 +92,9 @@
     </tbody>
 </table>
 
+<%
+    }
+%>
 
 </body>
 </html>

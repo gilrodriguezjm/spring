@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<ProductoEntity, Integer> {
 
-    @Query("select p from ProductoEntity p join p.transaccionsById t where p.id = t.productoByProductoId.id and t.personaByPersonaId.id = :id and t.tipo = 'puja' and t.tipo = 'venta'")
+    @Query("Select p from ProductoEntity p join p.transaccionsById t where p.id = t.personaByPersonaId.id and t.personaByPersonaId.id = :id and t.tipo = 'puja' or t.tipo = 'venta'")
     public List<ProductoEntity> findVentas(@Param("id") int id);
 
 }

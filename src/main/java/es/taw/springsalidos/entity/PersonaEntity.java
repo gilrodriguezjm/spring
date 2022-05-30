@@ -185,6 +185,11 @@ public class PersonaEntity {
         dto.setNombre(nombre);
         dto.setApellidos(apellidos);
         dto.setRol(rol);
+        dto.setFecha_nacimiento(fechaNacimiento);
+        dto.setMonedero(monedero);
+        dto.setDomicilio(domicilio);
+        dto.setCiudad(ciudad);
+        dto.setSexo(sexo);
 
         return dto;
     }
@@ -198,5 +203,10 @@ public class PersonaEntity {
         this.nombre = dto.getNombre();
         this.apellidos = dto.getApellidos();
         this.rol = dto.getRol();
+        this.fechaNacimiento = dto.getFecha_nacimiento();
+        this.monedero = dto.getMonedero();
+        this.domicilio = dto.getDomicilio();
+        this.ciudad = dto.getCiudad();
+        this.sexo = dto.getSexo();
     }
 }

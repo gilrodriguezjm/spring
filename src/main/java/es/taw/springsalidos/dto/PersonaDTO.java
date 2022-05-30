@@ -1,5 +1,7 @@
 package es.taw.springsalidos.dto;
 
+import java.sql.Date;
+
 public class PersonaDTO {
 
     private Integer idPersona;
@@ -8,6 +10,11 @@ public class PersonaDTO {
     private String nombre;
     private String apellidos;
     private String rol;
+    private Date fecha_nacimiento;
+    private Double monedero;
+    private String domicilio;
+    private String ciudad;
+    private String sexo;
 
     public PersonaDTO() {
     }
@@ -58,5 +65,46 @@ public class PersonaDTO {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public Double getMonedero() {
+        return monedero;
+    }
+
+    public void setMonedero(Double monedero) {
+        this.monedero = monedero;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 }

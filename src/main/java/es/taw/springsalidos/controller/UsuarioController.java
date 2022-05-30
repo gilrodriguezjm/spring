@@ -1,9 +1,8 @@
 package es.taw.springsalidos.controller;
 
-import es.taw.springsalidos.dao.PersonaRepository;
-import es.taw.springsalidos.dao.ProductoRepository;
-import es.taw.springsalidos.entity.PersonaEntity;
-import es.taw.springsalidos.entity.ProductoEntity;
+import es.taw.springsalidos.dto.PersonaDTO;
+import es.taw.springsalidos.dto.ProductoDTO;
+import es.taw.springsalidos.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,29 +15,29 @@ import java.util.List;
 @Controller
 public class UsuarioController {
 
-    protected ProductoRepository productorepository;
+    protected ProductoService productoservice;
 
-    public ProductoRepository getProductorepository() {
-        return productorepository;
+    public ProductoService getProductoservice() {
+        return productoservice;
     }
 
     @Autowired
-    public void setProductoRepository(ProductoRepository pr) {
-        this.productorepository = pr;
+    public void setProductoService (ProductoService ps){
+        this.productoservice = ps;
     }
 
     @GetMapping("/usuario")
     public String cargarUsuario (Model model, HttpSession session){
 
-        PersonaEntity persona = (PersonaEntity) session.getAttribute("persona");
+        PersonaDTO persona = (PersonaDTO) session.getAttribute("persona");
 
-        List<ProductoEntity> ventas = this.productorepository.findVentas(persona.getId());
+        List<ProductoDTO> ventas = this.productoservice.getVentas(persona.getIdPersona());
 
         model.addAttribute("persona",persona);
 
 
 
-        if(ventas == null){
+        if(ventas.isEmpty()){
             model.addAttribute("error","No hay ventas para este usuario");
             return "inicio";
         }else{

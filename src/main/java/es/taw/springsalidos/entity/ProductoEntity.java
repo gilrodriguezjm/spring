@@ -1,5 +1,7 @@
 package es.taw.springsalidos.entity;
 
+import es.taw.springsalidos.dto.PersonaDTO;
+import es.taw.springsalidos.dto.ProductoDTO;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.*;
@@ -111,5 +113,29 @@ public class ProductoEntity {
     public void setTransaccionsById(List<TransaccionEntity> transaccionsById) {
         this.transaccionsById = transaccionsById;
     }
+
+
+    public ProductoDTO toDTO() {
+        ProductoDTO dto = new ProductoDTO();
+
+        dto.setIdProducto(id);
+        dto.setNombre(nombre);
+        dto.setFecha_puesta_venta(fechaVenta);
+        dto.setPrecio_salida(precioSalida);
+        dto.setPrecio_compra(precioCompra);
+
+        return dto;
+    }
+
+    public ProductoEntity() {}
+
+    public ProductoEntity(ProductoDTO dto){
+        this.id = dto.getIdProducto();
+        this.nombre = dto.getNombre();
+        this.fechaVenta = dto.getFecha_puesta_venta();
+        this.precioSalida = dto.getPrecio_salida();
+        this.precioCompra = dto.getPrecio_compra();
+    }
+
 
 }
