@@ -133,4 +133,10 @@ public class AnalistaController {
 
         return "redirect:/analista/";
     }
+
+    @GetMapping("/cargarInforme")
+    public String doCargarInforme(@PathVariable("id") Integer id){
+
+        return "verInforme";
+    }
 }

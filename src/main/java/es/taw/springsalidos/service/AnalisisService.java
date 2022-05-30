@@ -116,4 +116,6 @@ public class AnalisisService {
 
         this.analistaRepository.save(analisisEntity);
     }
+
+
 }
