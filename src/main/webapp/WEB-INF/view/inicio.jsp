@@ -69,16 +69,16 @@
         %>
         <tr>
             <td><%= p.getNombre() %></td>
-            <td><%= sdf.format(p.getFecha_puesta_venta()) %></td>
-            <td><%= p.getPrecio_salida() %> €</td>
+            <td><%= sdf.format(p.getFechaVenta()) %></td>
+            <td><%= p.getPrecioSalida() %> €</td>
             <%
-                if(p.getPrecio_compra() == null){
+                if(p.getPrecioCompra() == null){
             %>
             <td>0 €</td>
             <%
                 }else{
             %>
-            <td><%= p.getPrecio_compra() %> €</td>
+            <td><%= p.getPrecioCompra() %> €</td>
             <%
                 }
             %>
