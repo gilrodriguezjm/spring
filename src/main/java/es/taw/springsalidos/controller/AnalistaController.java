@@ -6,8 +6,6 @@ import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.dto.ProductoDTO;
 import es.taw.springsalidos.dto.TransaccionDTO;
-import es.taw.springsalidos.entity.AnalisisEntity;
-import es.taw.springsalidos.entity.PersonaEntity;
 import es.taw.springsalidos.service.AnalisisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
