@@ -2,13 +2,20 @@ package es.taw.springsalidos.service;
 
 import es.taw.springsalidos.dao.AnalistaRepository;
 import es.taw.springsalidos.dao.PersonaRepository;
+import es.taw.springsalidos.dao.ProductoRepository;
+import es.taw.springsalidos.dao.TransaccionRepository;
 import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.dto.PersonaDTO;
+import es.taw.springsalidos.dto.ProductoDTO;
+import es.taw.springsalidos.dto.TransaccionDTO;
 import es.taw.springsalidos.entity.AnalisisEntity;
 import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.entity.ProductoEntity;
+import es.taw.springsalidos.entity.TransaccionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.tree.TreeNode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +25,8 @@ public class AnalisisService {
 
     private PersonaRepository personaRepository;
     private AnalistaRepository analistaRepository;
+    private TransaccionRepository transaccionRepository;
+    private ProductoRepository productoRepository;
 
     public PersonaRepository getPersonaRepository() {
         return personaRepository;
@@ -37,12 +46,52 @@ public class AnalisisService {
         this.analistaRepository = analistaRepository;
     }
 
+    public TransaccionRepository getTransaccionRepository() {
+        return transaccionRepository;
+    }
+
+    @Autowired
+    public void setTransaccionRepository(TransaccionRepository transaccionRepository) {
+        this.transaccionRepository = transaccionRepository;
+    }
+
+    public ProductoRepository getProductoRepository() {
+        return productoRepository;
+    }
+
+    @Autowired
+    public void setProductoRepository(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
     private List<AnalisisDTO> listaAnalisisEntityToDTO (List<AnalisisEntity> lista) {
         List<AnalisisDTO> listaDTO = null;
         if (lista != null) {
             listaDTO = new ArrayList<>();
             for (AnalisisEntity analisis:lista) {
                 listaDTO.add(analisis.toDTO());
+            }
+        }
+        return listaDTO;
+    }
+
+    private List<TransaccionDTO> listaTransaccionEntityToDTO (List<TransaccionEntity> lista) {
+        List<TransaccionDTO> listaDTO = null;
+        if (lista != null) {
+            listaDTO = new ArrayList<>();
+            for (TransaccionEntity transaccion:lista) {
+                listaDTO.add(transaccion.toDTO());
+            }
+        }
+        return listaDTO;
+    }
+
+    private List<ProductoDTO> listaProductoEntityToDTO (List<ProductoEntity> lista) {
+        List<ProductoDTO> listaDTO = null;
+        if (lista != null) {
+            listaDTO = new ArrayList<>();
+            for (ProductoEntity producto:lista) {
+                listaDTO.add(producto.toDTO());
             }
         }
         return listaDTO;
@@ -60,7 +109,7 @@ public class AnalisisService {
         String strTabla, strColumna, strOrden, descripcion;
 
         if (tabla == 0)
-            strTabla = "Personas";
+            strTabla = "Transacciones";
         else
             strTabla = "Producto";
 
@@ -69,6 +118,7 @@ public class AnalisisService {
             case 2 -> "Precio de salida";
             case 3 -> "Precio de compra";
             case 4 -> "Estado";
+            case 5 -> "Puja";
             default -> "Productos vendidos";
         };
 
@@ -117,5 +167,50 @@ public class AnalisisService {
         this.analistaRepository.save(analisisEntity);
     }
 
+    public List<TransaccionDTO> obtenerTransaccionesPorTipoEnOrdenEntreFechas(int columna, int orden, Date fIni, Date fFin){
+        List<TransaccionEntity> list;
 
+        String tipo = switch (columna) {
+            case 0 -> "venta";
+            case 1 -> "compra";
+            default -> "puja";
+        };
+
+        if (orden == 0)
+            list = this.transaccionRepository.buscarTransaccionesPorTipoEnOrdenAscEntreFechas(tipo, fIni, fFin);
+        else
+            list = this.transaccionRepository.buscarTransaccionesPorTipoEnOrdenDescEntreFechas(tipo, fIni, fFin);
+
+        return this.listaTransaccionEntityToDTO(list);
+    }
+
+    public List<ProductoDTO> obtenerProductosPorColumnaEnOrdenEntreFechas(int columna, int orden, Date fIni, Date fFin){
+        List<ProductoEntity> list;
+
+        switch (columna) {
+            case 2:
+                if (orden == 0)
+                    list = this.productoRepository.buscarProductosPorPrecioSalidaAscEntreFechas(fIni, fFin);
+                else
+                    list = this.productoRepository.buscarProductosPorPrecioSalidaDescEntreFechas(fIni, fFin);
+                break;
+            case 3:
+                if (orden == 0)
+                    list = this.productoRepository.buscarProductosPorPrecioCompraAscEntreFechas(fIni, fFin);
+                else
+                    list = this.productoRepository.buscarProductosPorPrecioCompraDescEntreFechas(fIni, fFin);
+                break;
+            default:
+                if (orden == 0)
+                    list = this.productoRepository.buscarProductosPorEstadoAscEntreFechas(fIni, fFin);
+                else
+                    list = this.productoRepository.buscarProductosPorEstadoDescEntreFechas(fIni, fFin);
+                break;
+        }
+
+        if (list == null)
+            return null;
+        else
+            return this.listaProductoEntityToDTO(list);
+    }
 }

@@ -1,5 +1,7 @@
 package es.taw.springsalidos.entity;
 
+import es.taw.springsalidos.dto.ProductoDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -108,5 +110,18 @@ public class ProductoEntity {
 
     public void setTransaccionsById(List<TransaccionEntity> transaccionsById) {
         this.transaccionsById = transaccionsById;
+    }
+
+    public ProductoDTO toDTO(){
+        ProductoDTO dto = new ProductoDTO();
+
+        dto.setId(id);
+        dto.setFechaVenta(fechaVenta);
+        dto.setNombre(nombre);
+        dto.setPrecioCompra(precioCompra);
+        dto.setPrecioSalida(precioSalida);
+        dto.setEstadoByEstadoId(estadoByEstadoId);
+
+        return dto;
     }
 }
