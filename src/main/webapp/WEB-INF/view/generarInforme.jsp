@@ -26,7 +26,7 @@
     %>
         <form method="POST" action="/analista/generarInforme">
             <input type="radio" name="tabla" value="0" required>
-            <label>Personas</label>
+            <label>Transacciones</label>
             <input type="radio" name="tabla" value="1">
             <label>Productos</label>
             <input type="submit" value="Siguiente">
@@ -45,6 +45,8 @@
                 <label>Productos vendidos</label>
                 <input type="radio" name="columna" value="1">
                 <label>Productos comprados</label>
+                <input type="radio" name="columna" value="5">
+                <label>Productos en puja</label>
             <%
                 } else {
             %>

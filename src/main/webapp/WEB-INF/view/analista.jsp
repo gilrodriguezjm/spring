@@ -61,7 +61,7 @@
                             <td><%= analisis.get(i).getDescripcion() %></td>
                             <td><%= fechaInicio %></td>
                             <td><%= fechaFinal %></td>
-                            <td><a href="/analista/<%= analisis.get(i).getId() %>/cargarInforme">Ver</a></td>
+                            <td><a href="/analista/<%= analisis.get(i).getId() %>/verInforme">Ver</a></td>
                             <td><a href="/analista/<%= analisis.get(i).getId() %>/editarInforme">Editar</a></td>
                             <td><a href="/analista/<%= analisis.get(i).getId() %>/borrarInforme">Borrar</a></td>
                         </tr>

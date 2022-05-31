@@ -1,21 +1,27 @@
 package es.taw.springsalidos.dto;
 
+import es.taw.springsalidos.entity.EstadoEntity;
+
 import java.sql.Date;
 
 public class ProductoDTO {
 
-    private int idProducto;
+    private Integer id;
     private String nombre;
-    private Date fecha_puesta_venta;
-    private Double precio_salida;
-    private Double precio_compra;
+    private Date fechaVenta;
+    private Double precioSalida;
+    private Double precioCompra;
+    private EstadoEntity estadoByEstadoId;
 
-    public int getIdProducto() {
-        return idProducto;
+    public ProductoDTO() {
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -26,27 +32,35 @@ public class ProductoDTO {
         this.nombre = nombre;
     }
 
-    public Date getFecha_puesta_venta() {
-        return fecha_puesta_venta;
+    public Date getFechaVenta() {
+        return fechaVenta;
     }
 
-    public void setFecha_puesta_venta(Date fecha_puesta_venta) {
-        this.fecha_puesta_venta = fecha_puesta_venta;
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
     }
 
-    public Double getPrecio_salida() {
-        return precio_salida;
+    public Double getPrecioSalida() {
+        return precioSalida;
     }
 
-    public void setPrecio_salida(Double precio_salida) {
-        this.precio_salida = precio_salida;
+    public void setPrecioSalida(Double precioSalida) {
+        this.precioSalida = precioSalida;
     }
 
-    public Double getPrecio_compra() {
-        return precio_compra;
+    public Double getPrecioCompra() {
+        return precioCompra;
     }
 
-    public void setPrecio_compra(Double precio_compra) {
-        this.precio_compra = precio_compra;
+    public void setPrecioCompra(Double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+
+    public EstadoEntity getEstadoByEstadoId() {
+        return estadoByEstadoId;
+    }
+
+    public void setEstadoByEstadoId(EstadoEntity estadoByEstadoId) {
+        this.estadoByEstadoId = estadoByEstadoId;
     }
 }

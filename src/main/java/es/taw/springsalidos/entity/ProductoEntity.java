@@ -4,6 +4,8 @@ import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.dto.ProductoDTO;
 import org.springframework.data.repository.query.Param;
 
+import es.taw.springsalidos.dto.ProductoDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -115,27 +117,31 @@ public class ProductoEntity {
     }
 
 
-    public ProductoDTO toDTO() {
-        ProductoDTO dto = new ProductoDTO();
 
-        dto.setIdProducto(id);
-        dto.setNombre(nombre);
-        dto.setFecha_puesta_venta(fechaVenta);
-        dto.setPrecio_salida(precioSalida);
-        dto.setPrecio_compra(precioCompra);
-
-        return dto;
-    }
 
     public ProductoEntity() {}
 
     public ProductoEntity(ProductoDTO dto){
-        this.id = dto.getIdProducto();
+        this.id = dto.getId();
         this.nombre = dto.getNombre();
-        this.fechaVenta = dto.getFecha_puesta_venta();
-        this.precioSalida = dto.getPrecio_salida();
-        this.precioCompra = dto.getPrecio_compra();
+        this.fechaVenta = dto.getFechaVenta();
+        this.precioSalida = dto.getPrecioSalida();
+        this.precioCompra = dto.getPrecioCompra();
+        this.estadoByEstadoId = dto.getEstadoByEstadoId();
     }
 
 
+
+    public ProductoDTO toDTO(){
+        ProductoDTO dto = new ProductoDTO();
+
+        dto.setId(id);
+        dto.setFechaVenta(fechaVenta);
+        dto.setNombre(nombre);
+        dto.setPrecioCompra(precioCompra);
+        dto.setPrecioSalida(precioSalida);
+        dto.setEstadoByEstadoId(estadoByEstadoId);
+
+        return dto;
+    }
 }

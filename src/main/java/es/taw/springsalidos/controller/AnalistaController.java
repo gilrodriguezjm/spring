@@ -4,8 +4,8 @@ import es.taw.springsalidos.dao.AnalistaRepository;
 import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dto.AnalisisDTO;
 import es.taw.springsalidos.dto.PersonaDTO;
-import es.taw.springsalidos.entity.AnalisisEntity;
-import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.dto.ProductoDTO;
+import es.taw.springsalidos.dto.TransaccionDTO;
 import es.taw.springsalidos.service.AnalisisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -74,7 +70,7 @@ public class AnalistaController {
 
         String informe;
         if (tabla.equals("0"))
-            informe = "Informe sobre PERSONAS";
+            informe = "Informe sobre TRANSACCIONES";
         else
             informe = "Informe sobre PRODUCTOS";
 
@@ -134,8 +130,20 @@ public class AnalistaController {
         return "redirect:/analista/";
     }
 
-    @GetMapping("/cargarInforme")
-    public String doCargarInforme(@PathVariable("id") Integer id){
+    @GetMapping("/{id}/verInforme")
+    public String doVerInforme(@PathVariable("id") Integer id,
+                               Model model){
+        AnalisisDTO analisisDTO = this.analisisService.findAnalisisById(id);
+
+        if (analisisDTO.getTabla() == 0){
+            List<TransaccionDTO> transacciones = this.analisisService.obtenerTransaccionesPorTipoEnOrdenEntreFechas(analisisDTO.getColumna(), analisisDTO.getOrden(), analisisDTO.getFechaInicio(), analisisDTO.getFechaFinal());
+            model.addAttribute("transacciones", transacciones);
+        } else {
+            List<ProductoDTO> productos = this.analisisService.obtenerProductosPorColumnaEnOrdenEntreFechas(analisisDTO.getColumna(), analisisDTO.getOrden(), analisisDTO.getFechaInicio(), analisisDTO.getFechaFinal());
+            model.addAttribute("productos", productos);
+        }
+
+        model.addAttribute("analisis", analisisDTO);
 
         return "verInforme";
     }
