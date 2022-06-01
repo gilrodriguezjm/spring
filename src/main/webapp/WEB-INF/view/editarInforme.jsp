@@ -27,7 +27,7 @@
         %>
             <form:radiobutton path="columna" value="0"/>
             <label>Productos vendidos</label>
-            <form:radiobutton path="calumna" value="1"/>
+            <form:radiobutton path="columna" value="1"/>
             <label>Productos comprados</label>
         <%
             } else {
