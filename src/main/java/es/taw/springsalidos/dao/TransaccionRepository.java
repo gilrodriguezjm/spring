@@ -23,4 +23,6 @@ public interface TransaccionRepository extends JpaRepository<TransaccionEntity, 
                                                                                    @Param("fIni") Date fIni,
                                                                                    @Param("fFin") Date fFin);
 
+    @Query("Select t from TransaccionEntity t where t.productoByProductoId.id = :id")
+    public List<TransaccionEntity> findByProductoId(@Param("id") int id);
 }

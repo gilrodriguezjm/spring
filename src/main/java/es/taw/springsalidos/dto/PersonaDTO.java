@@ -1,6 +1,9 @@
 package es.taw.springsalidos.dto;
 
+import es.taw.springsalidos.entity.EstadoEntity;
+
 import java.sql.Date;
+import java.util.List;
 
 public class PersonaDTO {
 
@@ -107,4 +110,6 @@ public class PersonaDTO {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
+
+
 }

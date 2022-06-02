@@ -31,20 +31,37 @@ public class UsuarioController {
 
         PersonaDTO persona = (PersonaDTO) session.getAttribute("persona");
 
+
         List<ProductoDTO> ventas = this.productoservice.getVentas(persona.getIdPersona());
+        List<ProductoDTO> pujas = this.productoservice.getPujas(persona.getIdPersona());
+
 
         model.addAttribute("persona",persona);
 
 
 
-        if(ventas.isEmpty()){
-            model.addAttribute("error","No hay ventas para este usuario");
+        if(ventas.isEmpty() && pujas.isEmpty()){
+
+            model.addAttribute("error","No hay ventas ni pujas para este usuario");
             return "inicio";
-        }else{
+
+        }else if(ventas.isEmpty()){
+
+            model.addAttribute("pujas",pujas);
+
+            return "inicio";
+
+        }else if(pujas.isEmpty()){
 
             model.addAttribute("ventas",ventas);
-
             return "inicio";
+
+        }else{
+
+            model.addAttribute("pujas",pujas);
+            model.addAttribute("ventas",ventas);
+            return "inicio";
+
         }
 
 

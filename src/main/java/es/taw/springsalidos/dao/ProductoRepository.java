@@ -10,8 +10,11 @@ import java.util.List;
 
 public interface ProductoRepository extends JpaRepository<ProductoEntity, Integer> {
 
-    @Query("Select p from ProductoEntity p join p.transaccionsById t where p.id = t.productoByProductoId.id and t.personaByPersonaId = :id and t.tipo = 'venta' or t.tipo = 'puja'")
+    @Query("Select p from ProductoEntity p join p.transaccionsById t where p.id = t.productoByProductoId.id and t.personaByPersonaId.id = :id and t.tipo = 'venta'")
     public List<ProductoEntity> findVentas(@Param("id") int id);
+
+    @Query("Select p from ProductoEntity p join p.transaccionsById t where p.id = t.productoByProductoId.id and t.personaByPersonaId.id = :id and t.tipo = 'puja'")
+    public List<ProductoEntity> findPujas(@Param("id") int id);
 
     @Query("SELECT p FROM ProductoEntity p WHERE p.fechaVenta >= :fIni and p.fechaVenta <= :fFin ORDER BY p.precioSalida ASC")
     public List<ProductoEntity> buscarProductosPorPrecioSalidaAscEntreFechas(@Param("fIni") Date fIni,
