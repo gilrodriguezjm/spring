@@ -19,6 +19,7 @@
     List<TransaccionDTO> transacciones = (List)request.getAttribute("transacciones");
     List<ProductoDTO> productos = (List)request.getAttribute("productos");
 
+    String sinDatos = "";
     SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
 %>
 <body>
@@ -32,6 +33,8 @@
         <table border="1">
             <%
                 if (analisis.getTabla() == 0) {
+                    if (transacciones.size() == 0)
+                        sinDatos = "No hay datos disponibles para este informe.";
             %>
             <thead>
                 <tr>
@@ -58,6 +61,7 @@
             </thead>
             <%
                 } else {
+                    sinDatos = "No hay datos disponibles para este informe.";
             %>
             <thead>
                 <tr>
@@ -121,6 +125,7 @@
                 %>
             </tbody>
         </table>
+        <p><%= sinDatos %></p>
     <%
         } else {
     %>
