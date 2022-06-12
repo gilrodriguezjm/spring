@@ -15,7 +15,7 @@
     String informe = (String)request.getAttribute("informe");
 %>
 <body>
-    <h1>Editar informe <%= informe%></h1>
+    <h1>Editar informe <%= informe %></h1>
     <form:form method="POST" action="/analista/actualizarInforme" modelAttribute="analisis">
         <form:hidden path="id" />
         <form:hidden path="tabla" />
@@ -46,7 +46,7 @@
         <p>Orden:</p>
         <form:radiobutton path="orden" value="0" required="required"/>
         <label>Ascendente</label>
-        <form:radiobutton path="orden" value="0"/>
+        <form:radiobutton path="orden" value="1"/>
         <label>Descendente</label>
 
         <br><br>
