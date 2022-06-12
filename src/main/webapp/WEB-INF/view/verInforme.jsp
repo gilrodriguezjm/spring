@@ -61,7 +61,8 @@
             </thead>
             <%
                 } else {
-                    sinDatos = "No hay datos disponibles para este informe.";
+                    if(productos.size() == 0)
+                        sinDatos = "No hay datos disponibles para este informe.";
             %>
             <thead>
                 <tr>
