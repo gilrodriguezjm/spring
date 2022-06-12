@@ -38,7 +38,7 @@ public class LoginController {
             return "index";
         } else if (persona.getRol().equals("Administrador")) {
             //Enviar a tu controller
-            return "redirect:/";
+            return "redirect:/administrador/";
         } else if (persona.getRol().equals("Analista")) {
             return "redirect:/analista/";
         } else if (persona.getRol().equals("Marketing")) {

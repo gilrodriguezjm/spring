@@ -4,6 +4,7 @@ import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dao.ProductoInteresRepository;
 import es.taw.springsalidos.dao.ProductoRepository;
 import es.taw.springsalidos.dao.TransaccionRepository;
+import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.dto.ProductoDTO;
 import es.taw.springsalidos.entity.PersonaEntity;
 import es.taw.springsalidos.entity.ProductoEntity;
@@ -52,7 +53,7 @@ public class ProductoService {
 
 
 
-    public List<ProductoDTO> getVentas(int personaId){
+    public List<ProductoDTO> getVentas(Integer personaId){
 
 
         PersonaEntity persona = this.getPersonarepository().findPersonaEntityById(personaId);
@@ -142,6 +143,25 @@ public class ProductoService {
 
         this.productorepository.save(producto);
     }
+
+
+    public List<ProductoDTO> getAllProductos ()
+    {
+        List<ProductoDTO> productoDTOList = new ArrayList<>();
+        List<ProductoEntity> productoEntityList = productorepository.findAll();
+        if(productoEntityList!=null) {
+            for (int i = 0; i < productoEntityList.size(); i++) {
+                productoDTOList.add(productoEntityList.get(i).toDTO());
+            }
+        }
+
+        return productoDTOList;
+
+    }
+
+
+
+
 
 
 }

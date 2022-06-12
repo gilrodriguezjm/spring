@@ -1,5 +1,6 @@
 package es.taw.springsalidos.dao;
 
+import es.taw.springsalidos.entity.PersonaEntity;
 import es.taw.springsalidos.entity.ProductoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
