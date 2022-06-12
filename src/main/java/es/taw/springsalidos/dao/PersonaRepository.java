@@ -12,6 +12,8 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     public PersonaEntity findPersonaEntityByEmailAndPassword(String email, String pass);
 
     public PersonaEntity findPersonaEntityById(Integer id);
+    public PersonaEntity findPersonaEntityByEmail(String email);
+
 
 
 }

@@ -28,31 +28,74 @@
     %>
 
 <p style="color:green;"><%= message %></p>
-
 <%
     }
 %>
+
+<a href="/administrador/">Inicio</a>
+<br><br>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>
+            Id Persona: <%= persona_editar.getIdPersona()%><br>
+            Email:  <%= persona_editar.getEmail() %> <br>
+        </th>
+
+    </tr>
+    </thead>
+
+</table>
+
+
 <p>
-    Nombre: <%= persona_editar.getNombre() %><br>
-    Apellidos:  <%= persona_editar.getApellidos() %><br>
-    Email:  <%= persona_editar.getEmail() %> <br>
+
+    <form:form method="POST" action="/administrador/actualizarPersona/" modelAttribute="persona_editar">
+        <form:hidden path="idPersona" />
+        <form:hidden path="email" />
+
+        Nombre</br>
+        <form:input path="nombre" /> </br>
+        </br>
+
+        Apellidos</br>
+        <form:input path="apellidos" /> </br>
+        </br>
+
+        Fecha Nacimiento</br>
+        <form:input path="fecha_nacimiento" /> </br>
+        </br>
+
+        Domicilio</br>
+        <form:input path="domicilio" /> </br>
+        </br>
+
+        Ciudad</br>
+        <form:input path="ciudad" /> </br>
+        </br>
+
+        Sexo</br>
+        <form:input path="sexo" /> </br>
+        </br>
+
+        Rol</br>
+        <form:radiobutton path="rol" value="Administrador"/>
+        <label>Administrador</label>
+        <form:radiobutton path="rol" value="Usuario"/>
+        <label>Usuario</label>
+        <form:radiobutton path="rol" value="Marketing"/>
+        <label>Marketing</label>
+        <form:radiobutton path="rol" value="Analista"/>
+        <label>Analista</label>
+        </br>
+        </br>
+        <form:button>Editar Persona</form:button>
+    </form:form>
+
+
+
 </p>
-
-
-
-<form:form method="POST" action="/administrador/actualizarPersona/" modelAttribute="persona">
-    <form:hidden path="id" />
-    <form:hidden path="monedero" />
-    <form:hidden path="sexo" />
-    <form:hidden path="password" />
-    <form:hidden path="rol" />
-
-    <label>Descripción:</label>
-    <br>
-    <form:textarea path="descripcion" rows="5" col="12" required="required"/>
-    <br><br>
-    <form:button>Editar informe</form:button>
-</form:form>
 
 
 

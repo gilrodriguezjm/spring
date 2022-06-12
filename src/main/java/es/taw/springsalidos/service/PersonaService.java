@@ -5,7 +5,9 @@ import es.taw.springsalidos.dao.PersonaRepository;
 import es.taw.springsalidos.dao.ProductoRepository;
 import es.taw.springsalidos.dao.TransaccionRepository;
 import es.taw.springsalidos.dto.PersonaDTO;
+import es.taw.springsalidos.dto.TransaccionDTO;
 import es.taw.springsalidos.entity.PersonaEntity;
+import es.taw.springsalidos.entity.TransaccionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,11 +51,10 @@ public class PersonaService {
 
 
     protected PersonaInteres personaInteresRepository ;
-    @Autowired
     public PersonaInteres getPersonaInteres() {
         return personaInteresRepository ;
     }
-
+    @Autowired
     public void setPersonaInteres(PersonaInteres personaInteres) {
         this.personaInteresRepository  = personaInteres;
     }
@@ -64,28 +65,13 @@ public class PersonaService {
 
     protected TransaccionRepository transaccionRepository;
 
-    public PersonaInteres getPersonaInteresRepository() {
-        return personaInteresRepository;
+    public TransaccionRepository getTransaccionRepository() {
+        return transaccionRepository;
     }
     @Autowired
-    public void setPersonaInteresRepository(PersonaInteres personaInteresRepository) {
-        this.personaInteresRepository = personaInteresRepository;
+    public void setTransaccionRepository(TransaccionRepository transaccionRepository) {
+        this.transaccionRepository = transaccionRepository;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //-----------------------------------------------------------------------------
 
 
@@ -94,6 +80,15 @@ public class PersonaService {
     public PersonaDTO findPersonaByID(Integer id)
     {
         PersonaEntity personaEntity = this.personaRepository.findPersonaEntityById(id);
+        if (personaEntity == null)
+            return null;
+        else
+            return personaEntity.toDTO();
+    }
+
+    public PersonaDTO findPersonaByEmail(String email)
+    {
+        PersonaEntity personaEntity = this.personaRepository.findPersonaEntityByEmail(email);
         if (personaEntity == null)
             return null;
         else
@@ -135,6 +130,23 @@ public class PersonaService {
 
     }
 
+    public List<TransaccionDTO>  getAllTransaccion()
+    {
+        List<TransaccionEntity> transacciones = this.transaccionRepository.findAll();
+
+        return this.listaTransaccionEntityToDTO(transacciones);
+    }
+
+    private List<TransaccionDTO> listaTransaccionEntityToDTO (List<TransaccionEntity> lista) {
+        List<TransaccionDTO> listaDTO = null;
+        if (lista != null) {
+            listaDTO = new ArrayList<>();
+            for (TransaccionEntity transaccion:lista) {
+                listaDTO.add(transaccion.toDTO());
+            }
+        }
+        return listaDTO;
+    }
 
 
 }
