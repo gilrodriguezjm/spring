@@ -23,12 +23,14 @@
 
         <p>Sobre:</p>
         <%
-            if (informe.equals("Persona")) {
+            if (informe.equals("Transacciones")) {
         %>
             <form:radiobutton path="columna" value="0"/>
             <label>Productos vendidos</label>
             <form:radiobutton path="columna" value="1"/>
             <label>Productos comprados</label>
+            <form:radiobutton path="columna" value="5"/>
+            <label>Productos en puja</label>
         <%
             } else {
         %>

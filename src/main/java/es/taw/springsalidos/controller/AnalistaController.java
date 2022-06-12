@@ -112,9 +112,9 @@ public class AnalistaController {
 
         String informe;
         if (analisisDTO.getTabla() == 0)
-            informe = "Personas";
+            informe = "Transacciones";
         else
-            informe = "Producto";
+            informe = "Productos";
 
         model.addAttribute("informe", informe);
         model.addAttribute("analisis", analisisDTO);
