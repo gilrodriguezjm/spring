@@ -61,7 +61,8 @@
             </thead>
             <%
                 } else {
-                    sinDatos = "No hay datos disponibles para este informe.";
+                    if(productos.size() == 0)
+                        sinDatos = "No hay datos disponibles para este informe.";
             %>
             <thead>
                 <tr>
@@ -83,11 +84,11 @@
                             <%
                                 if (transacciones.get(i).getPrecio() == null) {
                             %>
-                            <td>Precio por determinar</td>
+                                <td>Precio por determinar</td>
                             <%
                                 } else {
                             %>
-                            <td><%= transacciones.get(i).getPrecio() %></td>
+                                <td><%= transacciones.get(i).getPrecio() %> €</td>
                             <%
                                 }
                             %>
@@ -102,7 +103,7 @@
                         for (int i = 0; i < productos.size(); i++) {
                 %>
                         <tr>
-                            <td><%= productos.get(i).getPrecioSalida() %></td>
+                            <td><%= productos.get(i).getPrecioSalida() %> €</td>
                             <td><%= productos.get(i).getNombre() %></td>
                             <td><%= productos.get(i).getEstadoByEstadoId().getNombre() %></td>
                             <td>
@@ -113,7 +114,7 @@
                                 <%
                                     } else {
                                 %>
-                                    <%= productos.get(i).getPrecioCompra() %>
+                                    <%= productos.get(i).getPrecioCompra() %> €
                                 <%
                                     }
                                 %>

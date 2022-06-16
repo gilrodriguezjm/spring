@@ -20,8 +20,8 @@ public interface TransaccionRepository extends JpaRepository<TransaccionEntity, 
 
     @Query("SELECT t FROM TransaccionEntity t WHERE t.tipo = :tipo and t.fechaTransaccion >= :fIni and t.fechaTransaccion <= :fFin ORDER BY t.precioCompra DESC")
     public List<TransaccionEntity> buscarTransaccionesPorTipoEnOrdenDescEntreFechas(@Param("tipo") String tipo ,
-                                                                                   @Param("fIni") Date fIni,
-                                                                                   @Param("fFin") Date fFin);
+                                                                                    @Param("fIni") Date fIni,
+                                                                                    @Param("fFin") Date fFin);
 
     @Query("Select t from TransaccionEntity t where t.productoByProductoId.id = :id")
     public List<TransaccionEntity> findByProductoId(@Param("id") int id);
