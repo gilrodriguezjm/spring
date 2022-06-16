@@ -217,4 +217,18 @@ public class ProductoService {
         return product;
     }
 
+    public List<ProductoDTO> getAllProductos(){
+        List <ProductoEntity> productos = this.productorepository.findAll();
+        List<ProductoDTO> productoDTOs = new ArrayList<ProductoDTO>();
+
+        if (productos != null) {
+            for(int i=0; i<productos.size(); i++){
+                productoDTOs.add(productos.get(i).toDTO());
+            }
+            return productoDTOs;
+        } else {
+            return null;
+        }
+    }
+
 }
