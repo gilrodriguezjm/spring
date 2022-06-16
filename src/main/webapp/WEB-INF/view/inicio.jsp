@@ -4,7 +4,8 @@
 <%@ page import="es.taw.springsalidos.dto.ProductoDTO" %>
 <%@ page import="es.taw.springsalidos.dto.PersonaDTO" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="es.taw.springsalidos.entity.EstadoEntity" %><%--
   Created by IntelliJ IDEA.
   User: gil
   Date: 28/5/22
@@ -22,7 +23,13 @@
     String strError = (String)request.getAttribute("error");
     if (strError == null) strError = "";
     PersonaDTO persona = (PersonaDTO) request.getAttribute("persona");
+    List<EstadoEntity> estados = (List<EstadoEntity>) request.getAttribute("estados");
 
+    List<ProductoDTO> ventas = (List<ProductoDTO>) request.getAttribute("ventas");
+    List<ProductoDTO> pujas = (List<ProductoDTO>) request.getAttribute("pujas");
+    List<ProductoDTO> pujasyVentas = new ArrayList<ProductoDTO>(ventas);
+
+    pujasyVentas.addAll(pujas);
 
 %>
 
@@ -44,119 +51,6 @@
 
 <a href="/ventas/nuevaVenta">Nueva venta</a>
 
-<%
-    List<ProductoDTO> ventas = (List<ProductoDTO>) request.getAttribute("ventas");
-    List<ProductoDTO> pujas = (List<ProductoDTO>) request.getAttribute("pujas");
-
-    if(ventas == null || ventas.isEmpty()){ //Muestra solo pujas
-
-%>
-
-
-<thead>
-<tr>
-    <td>Nombre</td>
-    <td>Estado</td>
-    <td>Fecha de puesta a venta</td>
-    <td>Precio salida</td>
-    <td>Precio compra</td>
-</tr>
-</thead>
-<tbody>
-<%
-
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    for(ProductoDTO p : pujas){
-%>
-<tr>
-    <td><%= p.getNombre() %></td>
-    <td><%= p.getEstadoByEstadoId().getNombre() %></td>
-    <td><%= sdf.format(p.getFechaVenta()) %></td>
-    <td><%= p.getPrecioSalida() %> €</td>
-    <%
-        if(p.getPrecioCompra() == null){
-    %>
-    <td>0 €</td>
-    <%
-    }else{
-    %>
-    <td><%= p.getPrecioCompra() %> €</td>
-    <%
-        }
-    %>
-    <td><a href="/ventas/<%=p.getId()%>/eliminarVenta">Eliminar venta</a></td>
-    <td><a href="/ventas/<%=p.getId()%>/modificarVenta">Modificar venta</a></td>
-    <%
-        }
-    %>
-
-</tr>
-
-</tbody>
-</table>
-
-
-
-
-<%
-    }else if(pujas == null || ventas.isEmpty()){ //Muestra solo ventas
-%>
-
-
-
-<thead>
-<tr>
-    <td>Nombre</td>
-    <td>Estado</td>
-    <td>Fecha de puesta a venta</td>
-    <td>Precio salida</td>
-    <td>Precio compra</td>
-</tr>
-</thead>
-<tbody>
-<%
-
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    for(ProductoDTO p : ventas){
-%>
-<tr>
-    <td><%= p.getNombre() %></td>
-    <td><%= p.getEstadoByEstadoId().getNombre() %></td>
-    <td><%= sdf.format(p.getFechaVenta()) %></td>
-    <td><%= p.getPrecioSalida() %> €</td>
-    <%
-        if(p.getPrecioCompra() == null){
-    %>
-    <td>0 €</td>
-    <%
-    }else{
-    %>
-    <td><%= p.getPrecioCompra() %> €</td>
-    <%
-        }
-    %>
-    <td><a href="/ventas/<%=p.getId()%>/eliminarVenta">Eliminar venta</a></td>
-    <td><a href="/ventas/<%=p.getId()%>/modificarVenta">Modificar venta</a></td>
-    <%
-        }
-    %>
-
-</tr>
-
-</tbody>
-</table>
-
-
-<%
-    }else{
-
-        List<ProductoDTO> pujasYventas = new ArrayList<ProductoDTO>();
-        pujasYventas.addAll(ventas);
-        pujasYventas.addAll(pujas);
-
-%>
 
 <table border="1">
     <thead>
@@ -173,11 +67,22 @@
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-            for(ProductoDTO p : pujasYventas){
+            for(ProductoDTO p : pujasyVentas){
         %>
         <tr>
             <td><%= p.getNombre() %></td>
-            <td><%= p.getEstadoByEstadoId().getNombre() %></td>
+
+            <%
+                for(int i=0;i<estados.size();i++){
+                    if(p.getEstadoByEstadoId().equals(estados.get(i).getId())){
+            %>
+
+            <td><%= estados.get(i).getNombre() %></td>
+
+            <%
+                    }
+                }
+            %>
             <td><%= sdf.format(p.getFechaVenta()) %></td>
             <td><%= p.getPrecioSalida() %> €</td>
             <%
@@ -202,9 +107,6 @@
     </tbody>
 </table>
 
-<%
-    }
-%>
 
 </body>
 </html>

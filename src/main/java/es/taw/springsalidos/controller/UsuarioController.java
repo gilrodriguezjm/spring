@@ -2,6 +2,8 @@ package es.taw.springsalidos.controller;
 
 import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.dto.ProductoDTO;
+import es.taw.springsalidos.entity.EstadoEntity;
+import es.taw.springsalidos.service.EstadoService;
 import es.taw.springsalidos.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,18 @@ import java.util.List;
 
 @Controller
 public class UsuarioController {
+
+    private EstadoService estadoService;
+
+    public EstadoService getEstadoService() {
+        return estadoService;
+    }
+
+
+    @Autowired
+    public void setEstadoService(EstadoService estadoService) {
+        this.estadoService = estadoService;
+    }
 
     protected ProductoService productoservice;
 
@@ -34,6 +48,7 @@ public class UsuarioController {
 
         List<ProductoDTO> ventas = this.productoservice.getVentas(persona.getIdPersona());
         List<ProductoDTO> pujas = this.productoservice.getPujas(persona.getIdPersona());
+        List<EstadoEntity> estados = this.estadoService.buscarTodos();
 
 
         model.addAttribute("persona",persona);
@@ -58,6 +73,7 @@ public class UsuarioController {
 
         }else{
 
+            model.addAttribute("estados",estados);
             model.addAttribute("pujas",pujas);
             model.addAttribute("ventas",ventas);
             return "inicio";

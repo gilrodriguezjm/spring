@@ -21,36 +21,42 @@
 
 <form:form method="post" action="/ventas/confirmarActualizarVenta" modelAttribute="producto">
     <form:hidden path="id" />
-    <form:hidden path="precio_compra" />
+    <form:hidden path="precioCompra" />
 
-    <form:input path="nombre" required="required" />
     <label>Nombre producto : </label>
-    <form:input path="fecha_venta" required="required" />
+    <form:input path="nombre" required="required" /><br>
     <label>Fecha de puesta en venta : </label>
-    <form:input path="precio_salida" />
+    <form:input path="fechaVenta" required="required" /><br>
     <label>Precio salida de producto : </label>
+    <form:input path="precioSalida" /><br>
+
     <p>Introducir estado del producto : </p>
-    <form:radiobutton path="estadoByEstadoId" value="0" />
     <label>Perfecto</label>
-    <form:radiobutton path="estdoByEstadoId" value="1" />
+    <form:radiobutton path="estadoByEstadoId" value="0" /><br>
     <label>Bueno</label>
-    <form:radiobutton path="estdoByEstadoId" value="2" />
+    <form:radiobutton path="estadoByEstadoId" value="1" /><br>
     <label>Regular</label>
-    <form:radiobutton path="estdoByEstadoId" value="3" />
+    <form:radiobutton path="estadoByEstadoId" value="2" /><br>
     <label>Mal</label>
-    <form:radiobutton path="estdoByEstadoId" value="4" />
+    <form:radiobutton path="estadoByEstadoId" value="3" /><br>
     <label>Fatal</label>
+    <form:radiobutton path="estadoByEstadoId" value="4" /><br>
+
     <p>Introducir intereses del producto : </p>
-    <form:checkbox path="productoInteresById" value="0" />
+
+    <form:checkboxes path="productoInteresByProductoId" items="${intereses}" itemLabel="nombre" itemValue="id" /><br>
+    <%--
     <label>Deporte</label>
-    <form:checkbox path="productoInteresById" value="1" />
+    <form:checkbox path="productoInteresByProductoId" value="0" /><br>
     <label>Música</label>
-    <form:checkbox path="productoInteresById" value="2" />
+    <form:checkbox path="productoInteresByProductoId" value="1" /><br>
     <label>Coches</label>
-    <form:checkbox path="productoInteresById" value="3" />
+    <form:checkbox path="productoInteresByProductoId" value="2" /><br>
     <label>Tecnología</label>
-    <form:checkbox path="productoInteresById" value="4" />
+    <form:checkbox path="productoInteresByProductoId" value="3" /><br>
     <label>Ropa</label>
+    <form:checkbox path="productoInteresByProductoId" value="4" /><br>
+--%>
     <form:button>Editar venta</form:button>
 
 

@@ -1,6 +1,7 @@
 package es.taw.springsalidos.dao;
 
 
+import es.taw.springsalidos.entity.ProductoEntity;
 import es.taw.springsalidos.entity.ProductoInteresEntity;
 import es.taw.springsalidos.entity.ProductoInteresEntityPK;
 import es.taw.springsalidos.entity.TransaccionEntity;
@@ -15,5 +16,10 @@ import java.util.List;
 public interface ProductoInteresRepository extends JpaRepository<ProductoInteresEntity, ProductoInteresEntityPK> {
     @Query("Select p from ProductoInteresEntity p where p.productoByProductoId.id = :id")
     public List<ProductoInteresEntity> findByProductoId(@Param("id") int id);
+
+    @Query("Select p from ProductoInteresEntity p where p.productoByProductoId = :p")
+    public List<ProductoInteresEntity> findByProductoId(@Param("p") ProductoEntity p);
+
+    //public List<ProductoInteresEntity> findProductoInteresEntityByproductoByProductoId(ProductoEntity p);
 
 }

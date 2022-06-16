@@ -14,4 +14,7 @@ public interface InteresRepository extends JpaRepository<InteresEntity,Integer> 
     @Query("select i from InteresEntity i where i.id = :id ")
     public List<InteresEntity> buscarPorId(@Param("id") int id);
 
+    @Query("select i from InteresEntity i where i.id = :id ")
+    public InteresEntity encontrarPorId(@Param("id") int id);
+
 }

@@ -14,15 +14,12 @@
 <head>
     <title>Nueva venta</title>
 </head>
-<%
-    ProductoDTO nuevo_producto = (ProductoDTO) request.getAttribute("producto");
-%>
+
+
 <body>
 <h1>Introducir datos del producto a crear : </h1>
 
 <form:form method="get" action="/ventas/crearVenta" modelAttribute="producto">
-    <form:hidden path="id" />
-    <form:hidden path="precioCompra" />
 
     <label for="nombre" >Nombre producto : </label>
     <form:input path="nombre" required="required" /><br>

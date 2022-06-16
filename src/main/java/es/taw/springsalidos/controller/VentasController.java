@@ -7,6 +7,8 @@ import es.taw.springsalidos.dto.PersonaDTO;
 import es.taw.springsalidos.dto.ProductoDTO;
 import es.taw.springsalidos.entity.*;
 import es.taw.springsalidos.service.EstadoService;
+import es.taw.springsalidos.service.InteresService;
+import es.taw.springsalidos.service.ProductoInteresService;
 import es.taw.springsalidos.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,7 @@ public class VentasController {
     public ProductoService getProductoService(){return productoService;}
 
     @Autowired
-    public void setProductoRepository(ProductoService productoService){this.productoService = productoService;}
+    public void setProductoService(ProductoService productoService){this.productoService = productoService;}
 
     private EstadoService estadoService;
 
@@ -36,13 +38,16 @@ public class VentasController {
     @Autowired
     public void setEstadoService(EstadoService estadoService){this.estadoService = estadoService;}
 
-    private InteresRepository interesRepository;
+    private InteresService interesService;
 
-    public InteresRepository getInteresRepository(){return interesRepository;}
+    public InteresService getInteresService() {
+        return interesService;
+    }
 
     @Autowired
-    public void setInteresRepository(InteresRepository interesRepository){this.interesRepository = interesRepository;}
-
+    public void setInteresService(InteresService interesService) {
+        this.interesService = interesService;
+    }
 
     @GetMapping("{id}/eliminarVenta")
     public String eliminarVenta(@PathVariable("id") int id){
@@ -52,27 +57,32 @@ public class VentasController {
 
     }
 
+    private ProductoInteresService pis;
 
-
-    private ProductoInteresRepository productoInteresRepository;
-
-    public ProductoInteresRepository getProductoInteresRepository(){return productoInteresRepository;}
+    public ProductoInteresService getPis() {
+        return pis;
+    }
 
     @Autowired
-    public void setProductoInteresRepository(ProductoInteresRepository productoInteresRepository){this.productoInteresRepository = productoInteresRepository;}
+    public void setPis(ProductoInteresService pis) {
+        this.pis = pis;
+    }
 
     @GetMapping("{id}/modificarVenta")
     public String modificarVenta(@PathVariable("id") int id, Model model){
 
         ProductoDTO producto_a_editar = this.productoService.findProductoById(id);
 
+        List<InteresEntity> intereses = this.interesService.buscarTodos();
+
         model.addAttribute("producto",producto_a_editar);
+        model.addAttribute("intereses",intereses);
 
         return "editarVenta";
 
     }
 
-    @PostMapping("/confrimarActualizarVenta")
+    @PostMapping("/confirmarActualizarVenta")
     public String confirmarActualizarVenta (@ModelAttribute("producto") ProductoDTO productoDTO) {
 
         this.productoService.actualizarProducto(productoDTO);
@@ -88,7 +98,7 @@ public class VentasController {
         ProductoDTO producto = new ProductoDTO();
 
         List<EstadoEntity> estados = this.estadoService.buscarTodos();
-        List<InteresEntity> intereses = this.interesRepository.findAll();
+        List<InteresEntity> intereses = this.interesService.buscarTodos();
 
         model.addAttribute("producto",producto);
         model.addAttribute("estados",estados);
@@ -102,28 +112,64 @@ public class VentasController {
     @GetMapping("/crearVenta")
     public String crearVenta(@ModelAttribute("producto") ProductoDTO producto, HttpSession session){
 
-        Date fecha_venta = new Date(System.currentTimeMillis());
-
-        producto.setFechaVenta(fecha_venta);
 
         PersonaDTO persona = (PersonaDTO) session.getAttribute("persona");
 
         PersonaEntity persona_transaccion = new PersonaEntity(persona);
 
-        ProductoEntity producto_nuevo = new ProductoEntity(producto);
+
+        ProductoEntity producto_con_Id = crearProductoNuevo(producto);
 
 
-        EstadoEntity estado = this.estadoService.buscarPorId(producto_nuevo.getId());
-        producto_nuevo.setEstadoByEstadoId(estado);
 
-        List<ProductoInteresEntity> intereses = this.productoInteresRepository.findByProductoId(producto_nuevo.getId());
-        producto_nuevo.setProductoInteresById(intereses);
+        //Hacemos la lista InteresEntity
 
-        List<TransaccionEntity> nueva_transaccion = crearTransaccion(producto_nuevo,persona_transaccion);
+        List<InteresEntity> intereses_producto = this.interesService.interesesDTOAEntity(producto);
 
-        producto_nuevo.setTransaccionsById(nueva_transaccion);
+        //Tenemos que crear la relacion producto interes
+
+        List<ProductoInteresEntity> intereses = this.pis.crearIntereses(producto_con_Id.getId(),producto.getProductoInteresByProductoId());
+
+        producto_con_Id.setProductoInteresById(intereses);
+
+
+        //EstadoEntity estado_producto = this.estadoService.buscarPorId(producto.getEstadoByEstadoId().getId());
+
+
+
+
+
+
+
+        List<TransaccionEntity> nueva_transaccion = crearTransaccion(producto_con_Id,persona_transaccion);
+
+        producto_con_Id.setTransaccionsById(nueva_transaccion);
 
         return "inicio";
+
+    }
+
+    public ProductoEntity crearProductoNuevo(ProductoDTO producto){
+
+        ProductoEntity producto1 = new ProductoEntity(producto);
+
+        Date fecha_venta = new Date(System.currentTimeMillis());
+
+        producto1.setFechaVenta(fecha_venta);
+
+
+        EstadoEntity estado_producto = this.estadoService.buscarPorId(producto.getEstadoByEstadoId());
+
+        producto1.setEstadoByEstadoId(estado_producto);
+
+        System.out.println("Se ha cargado el estado en el producto.");
+        System.out.println("El estado del producto es : "+producto1.getEstadoByEstadoId().getNombre());
+
+        //No deja crear el producto por que estadoByEstadoId no tiene valor por defecto.
+
+        ProductoEntity producto_con_Id = this.productoService.guardarProducto(producto1);
+
+        return producto_con_Id;
 
     }
 
@@ -135,6 +181,12 @@ public class VentasController {
 
         TransaccionEntity nueva_transaccion = new TransaccionEntity();
 
+        TransaccionEntityPK nueva_transaccionPK = new TransaccionEntityPK();
+
+        nueva_transaccionPK.setPersonaId(persona.getId());
+        nueva_transaccionPK.setProductoId(producto.getId());
+
+        nueva_transaccion.setTransaccionEntityPK(nueva_transaccionPK);
         nueva_transaccion.setFechaTransaccion(fecha);
         nueva_transaccion.setPrecioCompra(null);
         nueva_transaccion.setPersonaByPersonaId(persona);

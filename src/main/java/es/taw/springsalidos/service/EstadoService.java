@@ -36,6 +36,8 @@ public class EstadoService {
 
         EstadoEntity estado = this.estadoRepository.findById(id).orElse(null);
 
+        System.out.println("El estado es : " + estado.getNombre());
+
         return estado;
 
     }

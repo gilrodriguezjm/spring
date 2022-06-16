@@ -14,8 +14,8 @@ public class ProductoDTO {
     private Date fechaVenta;
     private Double precioSalida;
     private Double precioCompra;
-    private EstadoEntity estadoByEstadoId;
-    private List<ProductoInteresEntity> productoInteresByProductoId;
+    private Integer estadoByEstadoId;
+    private List<Integer> productoInteresByProductoId;
 
     public ProductoDTO() {
     }
@@ -60,20 +60,19 @@ public class ProductoDTO {
         this.precioCompra = precioCompra;
     }
 
-    public EstadoEntity getEstadoByEstadoId() {
+    public Integer getEstadoByEstadoId() {
         return estadoByEstadoId;
     }
 
-    public void setEstadoByEstadoId(EstadoEntity estadoByEstadoId) {
+    public void setEstadoByEstadoId(Integer estadoByEstadoId) {
         this.estadoByEstadoId = estadoByEstadoId;
     }
 
-
-    public List<ProductoInteresEntity> getProductoInteresByProductoId() {
+    public List<Integer> getProductoInteresByProductoId() {
         return productoInteresByProductoId;
     }
 
-    public void setProductoInteresByProductoId(List<ProductoInteresEntity> productoInteresByProductoId) {
+    public void setProductoInteresByProductoId(List<Integer> productoInteresByProductoId) {
         this.productoInteresByProductoId = productoInteresByProductoId;
     }
 }

@@ -33,7 +33,7 @@ public class ProductoEntity {
     @ManyToOne
     @JoinColumn(name = "estado_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     private EstadoEntity estadoByEstadoId;
-    @OneToMany(mappedBy = "productoByProductoId")
+    @OneToMany(mappedBy = "productoByProductoId", cascade = CascadeType.ALL)
     private List<ProductoInteresEntity> productoInteresById;
     @OneToMany(mappedBy = "productoByProductoId")
     private List<TransaccionEntity> transaccionsById;
@@ -127,7 +127,8 @@ public class ProductoEntity {
         this.fechaVenta = dto.getFechaVenta();
         this.precioSalida = dto.getPrecioSalida();
         this.precioCompra = dto.getPrecioCompra();
-        this.estadoByEstadoId = dto.getEstadoByEstadoId();
+        //this.estadoByEstadoId = dto.getEstadoByEstadoId();
+
     }
 
 
@@ -140,7 +141,8 @@ public class ProductoEntity {
         dto.setNombre(nombre);
         dto.setPrecioCompra(precioCompra);
         dto.setPrecioSalida(precioSalida);
-        dto.setEstadoByEstadoId(estadoByEstadoId);
+        dto.setEstadoByEstadoId(estadoByEstadoId.getId());
+
 
         return dto;
     }
